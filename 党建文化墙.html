@@ -1,523 +1,241 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>党建文化墙设计智能体 · 提示词生成器（敏感词优化）</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>古月AI智能体-党建文化墙设计灵感库</title>
 
-        body {
-            background: #8b1e1e;
-            font-family: 'Microsoft YaHei', 'PingFang SC', 'Helvetica Neue', 'Segoe UI', Roboto, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 30px 20px;
-        }
+<style>
 
-        .agent-card {
-            max-width: 1600px;
-            width: 100%;
-            background: #fbf7f2;
-            border-radius: 60px 60px 40px 40px;
-            box-shadow: 0 40px 70px -20px #4a2c2c, 0 0 0 1px rgba(200, 160, 140, 0.6) inset;
-            overflow: hidden;
-        }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-        /* 头部 — 党建设计智能体身份 */
-        .agent-header {
-            background: #9e2a2b;  /* 庄重红色 */
-            padding: 32px 50px 24px 50px;
-            border-bottom: 6px solid #e4c580;  /* 金色点缀 */
-        }
+body{
+background:#8b1e1e;
+font-family:"Microsoft YaHei",sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:30px;
+}
 
-        .agent-title {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            flex-wrap: wrap;
-        }
+.agent-card{
+max-width:1600px;
+width:100%;
+background:#fbf7f2;
+border-radius:40px;
+overflow:hidden;
+box-shadow:0 40px 70px rgba(0,0,0,0.25);
+}
 
-        .agent-title h1 {
-            font-size: 38px;
-            font-weight: 600;
-            color: #ffffff;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
+.agent-header{
+background:#9e2a2b;
+padding:30px 50px;
+color:white;
+}
 
-        .agent-tag {
-            background: #e4c580;
-            color: #9e2a2b;
-            font-size: 20px;
-            font-weight: 700;
-            padding: 10px 30px;
-            border-radius: 60px;
-            letter-spacing: 2px;
-        }
+.agent-header h1{
+font-size:34px;
+}
 
-        .agent-sub {
-            font-size: 20px;
-            color: #ffeecd;
-            font-weight: 300;
-            margin-top: 12px;
-            border-left: 4px solid #e4c580;
-            padding-left: 24px;
-        }
+.workspace{
+display:flex;
+flex-wrap:wrap;
+}
 
-        /* 双栏主体 */
-        .workspace {
-            display: flex;
-            flex-wrap: wrap;
-        }
+.input-panel{
+flex:1;
+min-width:420px;
+padding:40px;
+background:white;
+}
 
-        /* 左侧输入区 — 党建信息 */
-        .input-panel {
-            flex: 1.2;
-            min-width: 450px;
-            background: #ffffff;
-            padding: 48px 42px;
-            border-right: 1px solid #dacfc1;
-        }
+.input-panel h2{
+font-size:28px;
+margin-bottom:20px;
+color:#9e2a2b;
+}
 
-        .input-panel h2 {
-            font-size: 32px;
-            font-weight: 600;
-            color: #9e2a2b;
-            margin-bottom: 16px;
-            border-bottom: 3px solid #e4c580;
-            padding-bottom: 20px;
-        }
+.input-group{
+margin-bottom:24px;
+}
 
-        .input-group {
-            margin-bottom: 32px;
-        }
+.input-group label{
+font-weight:600;
+display:block;
+margin-bottom:10px;
+}
 
-        .input-group label {
-            display: block;
-            font-size: 20px;
-            font-weight: 600;
-            color: #6b2c2c;
-            margin-bottom: 12px;
-            letter-spacing: 0.8px;
-        }
+.input-group input,
+.input-group textarea{
+width:100%;
+padding:16px;
+font-size:16px;
+border-radius:12px;
+border:2px solid #ddd;
+}
 
-        .input-group input, .input-group textarea {
-            width: 100%;
-            padding: 18px 24px;
-            font-size: 18px;
-            background: #fefcf9;
-            border: 2px solid #d6cdc0;
-            border-radius: 20px;
-            transition: 0.2s;
-            color: #2b2b2b;
-            font-weight: 400;
-            resize: vertical;
-            font-family: inherit;
-        }
+.generate-btn{
+width:100%;
+padding:20px;
+font-size:22px;
+border:none;
+border-radius:30px;
+background:#9e2a2b;
+color:white;
+cursor:pointer;
+margin-top:20px;
+}
 
-        .input-group input:focus, .input-group textarea:focus {
-            border-color: #c29858;
-            outline: none;
-            box-shadow: 0 0 0 5px rgba(228, 197, 128, 0.3);
-        }
+.output-panel{
+flex:1.4;
+padding:40px;
+background:#f6f2ec;
+max-height:900px;
+overflow:auto;
+}
 
-        .input-group textarea {
-            min-height: 240px;
-            line-height: 1.7;
-        }
+.output-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
 
-        .helper-note {
-            background: #fbf2e9;
-            border-radius: 18px;
-            padding: 22px 26px;
-            margin: 40px 0 28px;
-            font-size: 17px;
-            color: #6b2c2c;
-            border-left: 10px solid #e4c580;
-        }
+.prompt-list{
+display:flex;
+flex-direction:column;
+gap:16px;
+}
 
-        .helper-note p {
-            margin: 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+.prompt-card{
+background:white;
+padding:20px;
+border-radius:16px;
+border:1px solid #ddd;
+line-height:1.6;
+position:relative;
+}
 
-        .warning-note {
-            background: #fff2dd;
-            border-radius: 18px;
-            padding: 18px 22px;
-            margin: 20px 0 10px;
-            font-size: 16px;
-            color: #9e2a2b;
-            border: 1px dashed #e4c580;
-        }
+.copy-btn{
+position:absolute;
+right:16px;
+top:16px;
+background:#e4c580;
+border:none;
+padding:6px 12px;
+border-radius:8px;
+cursor:pointer;
+}
 
-        .generate-btn {
-            background: #9e2a2b;
-            border: none;
-            width: 100%;
-            padding: 26px 18px;
-            font-size: 32px;
-            font-weight: 600;
-            color: #ffffff;
-            letter-spacing: 6px;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-            border-bottom: 5px solid #e4c580;
-            margin-top: 30px;
-        }
+.copy-btn:hover{
+background:#d5b065;
+}
 
-        .generate-btn:hover {
-            background: #801f20;
-            transform: translateY(-3px);
-            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.25);
-        }
-
-        /* 右侧输出区 — 10组党建话题词 */
-        .output-panel {
-            flex: 2;
-            background: #f9f5ef;
-            padding: 48px 42px;
-            max-height: 950px;
-            overflow-y: auto;
-        }
-
-        .output-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .output-header h2 {
-            font-size: 32px;
-            font-weight: 600;
-            color: #9e2a2b;
-        }
-
-        .count-badge {
-            background: #e4c580;
-            color: #9e2a2b;
-            font-size: 22px;
-            font-weight: 700;
-            padding: 8px 30px;
-            border-radius: 40px;
-        }
-
-        .prompt-list {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .prompt-card {
-            background: #ffffffec;
-            backdrop-filter: blur(2px);
-            border: 1px solid #e2d5c5;
-            border-radius: 28px;
-            padding: 26px 30px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.04);
-            transition: 0.2s;
-            font-size: 18px;
-            line-height: 1.7;
-            color: #2b2b2b;
-            letter-spacing: 0.3px;
-        }
-
-        .prompt-card:hover {
-            background: #ffffff;
-            border-color: #c29858;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-        }
-
-        .prompt-index {
-            display: inline-block;
-            background: #9e2a2b;
-            color: #ffffff;
-            font-weight: 600;
-            font-size: 18px;
-            padding: 5px 18px;
-            border-radius: 40px;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-        }
-
-        .prompt-text {
-            font-weight: 400;
-        }
-
-        .footer-note {
-            margin-top: 35px;
-            font-size: 18px;
-            color: #9e2a2b;
-            text-align: right;
-            border-top: 2px dashed #e4c580;
-            padding-top: 22px;
-        }
-
-        /* 占位提示 */
-        .placeholder-prompt {
-            color: #9e6b6b;
-            font-style: italic;
-            background: #f3ede4;
-            border-radius: 24px;
-            padding: 30px;
-            text-align: center;
-            font-size: 22px;
-            border: 2px dashed #e4c580;
-        }
-    </style>
+</style>
 </head>
+
 <body>
-    <div class="agent-card">
-        <!-- 头部：党建设计智能体身份 -->
-        <div class="agent-header">
-            <div class="agent-title">
-                <h1>党建文化墙设计智能体</h1>
-                <span class="agent-tag">庄重 · 严肃 · 红色主题</span>
-            </div>
-            <div class="agent-sub">专注于机关/国企/党群中心 · 正面垂直视角 · 敏感词替代描述</div>
-        </div>
 
-        <!-- 左右工作区 -->
-        <div class="workspace">
-            <!-- 左侧输入：党建信息 -->
-            <div class="input-panel">
-                <h2>🏛️ 输入党建信息</h2>
-                
-                <div class="input-group">
-                    <label>单位类型</label>
-                    <input type="text" id="orgType" placeholder="例：机关单位 / 国企总部 / 街道党群" value="国企集团总部">
-                </div>
+<div class="agent-card">
 
-                <div class="input-group">
-                    <label>文化墙主题</label>
-                    <input type="text" id="theme" placeholder="例：不忘初心·牢记使命" value="不忘初心担使命 清风正气铸辉煌">
-                </div>
+<div class="agent-header">
+<h1>党建文化墙设计智能体</h1>
+</div>
 
-                <div class="input-group">
-                    <label>📜 文化墙内文 (组织旗帜、核心理念、入职誓言、权利义务、组织架构、先进风采、知识教育、廉政警示、先进榜样等)</label>
-                    <textarea id="content" rows="12">核心理念标识：为人民服务 · 实事求是 · 开拓创新
-组织旗帜标识：红色旗帜指引方向
-入职誓言：拥护纲领，遵守章程，履行义务，严守纪律
-权利义务：参加组织生活 · 接受教育培训 · 发挥先锋模范作用
-组织架构：党委办公室 · 组织部 · 宣传部 · 纪检办公室
-先进成员风采：优秀党员先锋岗 · 模范带头标兵 · 先进工作者
-知识教育：党史学习园地 · 理论思想 · 重要论述摘编
-廉政警示语：清正廉洁 · 警钟长鸣 · 永葆本色
-先进榜样：先锋示范岗光荣榜 · 季度模范人物 · 先进集体</textarea>
-                </div>
+<div class="workspace">
 
-                <div class="helper-note">
-                    <p>✔ 输出10组独立党建文化墙AI话题词，每组以“文化墙正面完全展示。”结尾</p>
-                    <p>✔ 正面垂直视角 · 方正平面墙体 · 真实空间(大厅/走廊/会议室) · 红色烤漆板/金属字/亚克力</p>
-                    <p>✔ 使用替代描述：红色旗帜/红色徽章/先锋岗/荣誉墙 · 避免敏感词屏蔽</p>
-                </div>
+<div class="input-panel">
 
-                <div class="warning-note">
-                    ⚠️ 所有敏感词已自动转换为AI可识别描述（如“党徽”用“金色徽章/红色旗帜标识”替代）
-                </div>
+<h2>输入党建信息</h2>
 
-                <button class="generate-btn" id="generateBtn">生 成 10 组 话 题 词</button>
-            </div>
+<div class="input-group">
+<label>单位名称</label>
+<input id="orgName" placeholder="例如：XX社区党支部">
+</div>
 
-            <!-- 右侧输出区：10组党建提示词 -->
-            <div class="output-panel" id="outputPanel">
-                <div class="output-header">
-                    <h2>即梦AI · 党建文化墙话题词</h2>
-                    <span class="count-badge" id="countDisplay">0 / 10</span>
-                </div>
-                <div class="prompt-list" id="promptList">
-                    <!-- 初始占位 -->
-                    <div class="placeholder-prompt">
-                        输入党建信息并点击生成，将出现10组专业党建文化墙提示词<br>
-                        <span style="font-size: 16px; opacity: 0.7;">(正面完全展示 · 庄重红色 · 材质可落地)</span>
-                    </div>
-                </div>
-                <div class="footer-note">
-                    ⚡ 每组均为完整一句或多句连续描述 · 可直接复制用于即梦AI / MidJourney
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="input-group">
+<label>文化主题</label>
+<input id="theme" placeholder="例如：不忘初心 牢记使命">
+</div>
 
-    <script>
-        (function() {
-            // 获取DOM元素
-            const orgTypeInput = document.getElementById('orgType');
-            const themeInput = document.getElementById('theme');
-            const contentInput = document.getElementById('content');
-            const generateBtn = document.getElementById('generateBtn');
-            const promptListDiv = document.getElementById('promptList');
-            const countDisplay = document.getElementById('countDisplay');
+<div class="input-group">
+<label>文化内容</label>
+<textarea id="content" placeholder="例如：党建文化、党员先锋、发展历程等"></textarea>
+</div>
 
-            // 清空并显示加载状态
-            function setLoading() {
-                promptListDiv.innerHTML = `<div class="placeholder-prompt">⏳ 正在生成10组党建话题词，请稍候...</div>`;
-                countDisplay.innerText = '0 / 10';
-            }
+<button class="generate-btn" onclick="generatePrompts()">生成提示词</button>
 
-            // 敏感词替换函数
-            function replaceSensitiveTerms(text) {
-                let replaced = text
-                    .replace(/党徽/g, '金色徽章')
-                    .replace(/党标/g, '红色旗帜标识')
-                    .replace(/党员/g, '先锋模范')
-                    .replace(/党组织/g, '先锋组织')
-                    .replace(/入党/g, '先锋加入')
-                    .replace(/党旗/g, '红色旗帜')
-                    .replace(/中国共产党/g, '先锋队伍');
-                return replaced;
-            }
+</div>
 
-            // 核心生成函数：根据输入产生10组党建文化墙提示词
-            function generatePrompts(orgType, theme, content) {
-                // 先对输入内容进行敏感词替换
-                const safeContent = replaceSensitiveTerms(content);
-                
-                // 将内文按行拆分，并提取关键段落
-                const lines = safeContent.split('\n').filter(line => line.trim() !== '');
-                
-                // 提取各个板块 (带默认值)
-                const concept = lines.find(l => l.includes('核心理念') || l.includes('理念')) || '核心理念：为人民服务·实事求是';
-                const flag = lines.find(l => l.includes('旗帜') || l.includes('标识')) || '红色旗帜标识：引领方向';
-                const oath = lines.find(l => l.includes('誓言') || l.includes('入职')) || '入职誓言：拥护纲领，严守纪律';
-                const rights = lines.find(l => l.includes('权利') || l.includes('义务')) || '权利义务：参加组织生活·接受教育';
-                const structure = lines.find(l => l.includes('组织架构') || l.includes('架构')) || '组织架构：党委办公室·组织部';
-                const advanced = lines.find(l => l.includes('先进成员') || l.includes('风采')) || '先进成员风采：先锋岗·模范标兵';
-                const education = lines.find(l => l.includes('知识教育') || l.includes('教育')) || '知识教育：党史学习·重要论述';
-                const warning = lines.find(l => l.includes('廉政') || l.includes('警示')) || '廉政警示：清正廉洁·警钟长鸣';
-                const example = lines.find(l => l.includes('榜样') || l.includes('光荣榜')) || '先进榜样：先锋示范岗·先进集体';
+<div class="output-panel">
 
-                // 10种不同的材质组合 (党建庄重风格)
-                const materialSet = [
-                    '红色烤漆板搭配金色不锈钢立体字，嵌入式灯带洗墙',
-                    '深红色木饰面与拉丝金色金属字，防眩光射灯重点照明',
-                    '朱红色艺术涂料，仿铜不锈钢立体标识，暗藏LED灯带',
-                    '暗红色铝塑板，金色亚克力字，顶部线型灯光',
-                    '枣红色烤漆玻璃，镜面不锈钢立体字，可调节轨道射灯',
-                    '红色软硬包结合，金属腐蚀工艺文字，嵌入式筒灯',
-                    '深红色大理石纹板材，拉丝铜色金属字，重点洗墙射灯',
-                    '红色环保烤漆板，透明亚克力背光字，天花筒灯均匀照明',
-                    '酒红色木饰面，磨砂金色立体字，嵌入式灯带勾边',
-                    '正红色艺术涂料，不锈钢腐蚀填色工艺，轨道射灯洗墙'
-                ];
+<div class="output-header">
+<h2>AI设计提示词</h2>
+</div>
 
-                const spaceSet = [
-                    '机关单位一楼大厅',
-                    '国企总部党建长廊',
-                    '党群服务中心核心展区',
-                    '会议室对面文化墙',
-                    '党员活动室主墙面',
-                    '办公楼入口视觉中心',
-                    '廉政教育基地入口',
-                    '红色文化展厅主墙',
-                    '单位走廊荣誉展示区',
-                    '党建学习园地主墙'
-                ];
+<div class="prompt-list" id="promptList"></div>
 
-                const prompts = [];
+</div>
 
-                for (let i = 0; i < 10; i++) {
-                    const space = spaceSet[i % spaceSet.length];
-                    const material = materialSet[i % materialSet.length];
+</div>
+</div>
 
-                    let prompt = '';
-                    
-                    // 三种句式变化，保证多样性但都完整包含所有板块
-                    if (i % 3 === 0) {
-                        prompt = `在${orgType}的${space}中，一面方正垂直的党建文化墙采用${material}，以正面视角完整呈现。墙面左上角设置红色旗帜标识与核心理念“${concept.replace('核心理念：','').replace('理念：','')}”以金色立体字突出，右侧区域展示入职誓言：${oath}，中部左侧以图文形式呈现权利义务：${rights}，右侧展示组织架构：${structure}。下方左侧展示先进成员风采：${advanced}，中部为知识教育板块：${education}，右侧为廉政警示语：${warning}，底部设置先进榜样光荣榜：${example}。墙面中央镶嵌金色徽章，所有文字均为清晰中文简体，标题、副标题、正文层级分明，红色与金色主调，庄重沉稳，嵌入式灯光均匀照亮，材质考究可落地。文化墙正面完全展示。`;
-                    } else if (i % 3 === 1) {
-                        prompt = `位于${orgType}${space}的一面完整垂直文化墙，选用${material}，采用正视角无透视构图。红色旗帜标识与核心理念“${concept.replace('核心理念：','')}”以金属立体字置于左上视觉起点，右侧主视觉区展示入职誓言：${oath}，中部通过图文板块呈现权利义务：${rights}，并辅以组织架构：${structure}。左侧下方为先进成员风采：${advanced}，知识教育区展示${education}，廉政警示区以红色底金色字呈现${warning}，右侧设有先进榜样光荣榜展示${example}。墙面中央点缀金色徽章，文字大小对比清晰，留白庄重，墙面采用暖色射灯照明，材质体现红色主题与金属质感，整体体现庄严教育感。文化墙正面完全展示。`;
-                    } else {
-                        prompt = `在${orgType}的${space}中，一面方正平整的党建文化墙以${material}构成，正面垂直视角构图。墙面左上角突出红色旗帜标识与核心理念：“${concept.replace('核心理念：','')}”，右侧上半部分展示入职誓言：${oath}，中部左侧为权利义务：${rights}，右侧组织架构：${structure}。下半部分从左至右依次为先进成员风采：${advanced}、知识教育：${education}、廉政警示：${warning}，最右侧设置先进榜样板块展示${example}。墙面中央区域设置金色徽章装饰，所有中文清晰易读，标题、副标题、正文字号比例严谨，红色与金色配色庄重大气，材质选用红色烤漆板与金属字，嵌入式灯带与射灯营造庄重光线。文化墙正面完全展示。`;
-                    }
+<script>
 
-                    // 额外确保敏感词已被替换（二次保险）
-                    prompt = replaceSensitiveTerms(prompt);
+function generatePrompts(){
 
-                    // 确保结尾
-                    if (!prompt.endsWith('文化墙正面完全展示。')) {
-                        prompt = prompt.trim() + '文化墙正面完全展示。';
-                    }
-                    
-                    prompts.push(prompt);
-                }
-                return prompts;
-            }
+let org=document.getElementById("orgName").value
+let theme=document.getElementById("theme").value
+let content=document.getElementById("content").value
 
-            // 渲染提示词列表
-            function renderPrompts(prompts) {
-                if (!prompts || prompts.length === 0) {
-                    promptListDiv.innerHTML = `<div class="placeholder-prompt">无法生成，请检查输入内容</div>`;
-                    countDisplay.innerText = '0 / 10';
-                    return;
-                }
+let list=document.getElementById("promptList")
 
-                let html = '';
-                prompts.forEach((prompt, idx) => {
-                    html += `
-                        <div class="prompt-card">
-                            <div class="prompt-index">第 ${idx+1} 组 · 正面党建墙</div>
-                            <div class="prompt-text">${prompt}</div>
-                        </div>
-                    `;
-                });
-                promptListDiv.innerHTML = html;
-                countDisplay.innerText = `${prompts.length} / 10`;
-            }
+list.innerHTML=""
 
-            // 生成并显示
-            function handleGenerate() {
-                const orgType = orgTypeInput.value.trim() || '国企集团总部';
-                const theme = themeInput.value.trim() || '不忘初心担使命 清风正气铸辉煌';
-                let content = contentInput.value.trim();
-                if (content === '') {
-                    content = `核心理念标识：为人民服务 · 实事求是 · 开拓创新
-组织旗帜标识：红色旗帜指引方向
-入职誓言：拥护纲领，遵守章程，履行义务，严守纪律
-权利义务：参加组织生活 · 接受教育培训 · 发挥先锋模范作用
-组织架构：党委办公室 · 组织部 · 宣传部 · 纪检办公室
-先进成员风采：优秀党员先锋岗 · 模范带头标兵 · 先进工作者
-知识教育：党史学习园地 · 理论思想 · 重要论述摘编
-廉政警示语：清正廉洁 · 警钟长鸣 · 永葆本色
-先进榜样：先锋示范岗光荣榜 · 季度模范人物 · 先进集体`;
-                }
+for(let i=1;i<=10;i++){
 
-                setLoading();
+let prompt=`党建文化墙设计，主题：${theme}，单位：${org}，内容包含：${content}，红色文化氛围设计，中国风党建文化墙，立体造型，金色党建元素，庄重大气，党建展厅设计，文化墙设计，3D效果图，高端党建文化空间`
 
-                setTimeout(() => {
-                    try {
-                        const prompts = generatePrompts(orgType, theme, content);
-                        renderPrompts(prompts);
-                    } catch (e) {
-                        promptListDiv.innerHTML = `<div class="placeholder-prompt">生成出错，请稍后重试</div>`;
-                        countDisplay.innerText = '0 / 10';
-                        console.error(e);
-                    }
-                }, 120);
-            }
+let card=document.createElement("div")
 
-            // 绑定点击事件
-            generateBtn.addEventListener('click', handleGenerate);
+card.className="prompt-card"
 
-            // 页面加载后自动生成一组示例
-            window.addEventListener('load', () => {
-                setTimeout(() => {
-                    handleGenerate();
-                }, 100);
-            });
-        })();
-    </script>
+card.innerHTML=`
+
+<button class="copy-btn" onclick="copyText(this)">复制</button>
+
+${prompt}
+
+`
+
+list.appendChild(card)
+
+}
+
+}
+
+function copyText(btn){
+
+let text=btn.parentElement.innerText.replace("复制","")
+
+navigator.clipboard.writeText(text)
+
+btn.innerText="已复制"
+
+setTimeout(()=>{
+
+btn.innerText="复制"
+
+},1500)
+
+}
+
+</script>
+
 </body>
 </html>
