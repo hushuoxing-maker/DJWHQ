@@ -3,15 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>古月AI智能体-党建文化墙设计灵感库</title>
+<title>古月智能体-党建文化墙AI设计灵感库</title>
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
 body{
 background:#8b1e1e;
@@ -99,17 +95,10 @@ max-height:900px;
 overflow:auto;
 }
 
-.output-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
-}
-
 .prompt-list{
 display:flex;
 flex-direction:column;
-gap:16px;
+gap:18px;
 }
 
 .prompt-card{
@@ -117,7 +106,7 @@ background:white;
 padding:20px;
 border-radius:16px;
 border:1px solid #ddd;
-line-height:1.6;
+line-height:1.7;
 position:relative;
 }
 
@@ -144,7 +133,7 @@ background:#d5b065;
 <div class="agent-card">
 
 <div class="agent-header">
-<h1>党建文化墙设计智能体</h1>
+<h1>古月智能体-党建文化墙AI设计灵感库</h1>
 </div>
 
 <div class="workspace">
@@ -165,18 +154,14 @@ background:#d5b065;
 
 <div class="input-group">
 <label>文化内容</label>
-<textarea id="content" placeholder="例如：党建文化、党员先锋、发展历程等"></textarea>
+<textarea id="content" placeholder="例如：党员风采、发展历程、党建文化等"></textarea>
 </div>
 
-<button class="generate-btn" onclick="generatePrompts()">生成提示词</button>
+<button class="generate-btn" onclick="generatePrompts()">生成10组提示词</button>
 
 </div>
 
 <div class="output-panel">
-
-<div class="output-header">
-<h2>AI设计提示词</h2>
-</div>
 
 <div class="prompt-list" id="promptList"></div>
 
@@ -186,6 +171,10 @@ background:#d5b065;
 </div>
 
 <script>
+
+function random(arr){
+return arr[Math.floor(Math.random()*arr.length)]
+}
 
 function generatePrompts(){
 
@@ -197,20 +186,57 @@ let list=document.getElementById("promptList")
 
 list.innerHTML=""
 
-for(let i=1;i<=10;i++){
+let styles=[
+"红色党建文化空间设计",
+"现代党建文化墙设计",
+"中国风党建文化展示墙",
+"红色主题文化长廊设计",
+"党建展厅空间设计"
+]
 
-let prompt=`党建文化墙设计，主题：${theme}，单位：${org}，内容包含：${content}，红色文化氛围设计，中国风党建文化墙，立体造型，金色党建元素，庄重大气，党建展厅设计，文化墙设计，3D效果图，高端党建文化空间`
+let materials=[
+"金属立体字",
+"亚克力发光字",
+"浮雕雕刻墙面",
+"木饰面背景墙",
+"金色金属装饰"
+]
+
+let lights=[
+"暖色灯带氛围",
+"隐藏式灯光",
+"线性灯光设计",
+"射灯重点照明",
+"灯带轮廓光"
+]
+
+let layout=[
+"中心对称构图",
+"空间层次设计",
+"立体结构墙面",
+"展厅式布局",
+"文化长廊布局"
+]
+
+let spaces=[
+"党建展厅",
+"企业党建空间",
+"社区党建文化墙",
+"学校党建文化走廊",
+"机关党建展示区"
+]
+
+for(let i=0;i<10;i++){
+
+let prompt=`${spaces[i%spaces.length]}，主题：${theme}，单位：${org}，内容包含：${content}，${random(styles)}，${random(layout)}，${random(materials)}，${random(lights)}，红色文化元素，党徽元素设计，高端党建文化墙，3D效果图，高清渲染`
 
 let card=document.createElement("div")
 
 card.className="prompt-card"
 
 card.innerHTML=`
-
 <button class="copy-btn" onclick="copyText(this)">复制</button>
-
 ${prompt}
-
 `
 
 list.appendChild(card)
